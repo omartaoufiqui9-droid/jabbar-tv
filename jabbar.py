@@ -1,10 +1,11 @@
 
+
 import streamlit as st
 
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. اللغات (عربي وفرنسي مع قسم الكرتون)
+# 2. نظام اللغات
 translations = {
     "العربية": {
         "welcome": "سينما منزلك الخاصة",
@@ -24,15 +25,13 @@ translations = {
     }
 }
 
-# 3. التأكد من حالة الدخول
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
-# اختيار اللغة من الجانب
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 4. التصميم (CSS) الفخم الذي أعجبك
+# 3. التصميم (CSS) - الشكل الفخم الذي طلبته
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -42,10 +41,10 @@ st.markdown("""
         line-height: 80px; font-size: 50px; font-family: 'Arial Black'; 
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
-    .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    input { text-align: center !important; direction: rtl; border-radius: 10px !important; color: black !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; border-radius: 10px; }
-    .movie-card { background: #1a1a1a; padding: 10px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; }
+    .main-title { color: white; text-align: center; font-size: 40px; font-family: 'Arial Black'; }
+    input { text-align: center !important; border-radius: 10px !important; color: black !important; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border-radius: 10px; height: 45px; border:none; }
+    .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; text-align: center; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -55,8 +54,8 @@ if not st.session_state['authenticated']:
     st.markdown("<h1 class='main-title'>JABBAR TV</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='text-align:center; color:#888;'>{t['welcome']}</p>", unsafe_allow_html=True)
     
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
+    col_login1, col_login2, col_login3 = st.columns([1, 1.2, 1])
+    with col_login2:
         name_input = st.text_input(t['user_label'], key="user_name_input")
         if st.button(t['login_btn']):
             if name_input:
@@ -64,10 +63,10 @@ if not st.session_state['authenticated']:
                 st.session_state['user_name'] = name_input
                 st.rerun()
 
-# --- واجهة المحتوى (أفلام، مسلسلات، كرتون) ---
+# --- واجهة عرض الأفلام ---
 else:
     st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
-    if st.sidebar.button("خروج / Logout"):
+    if st.sidebar.button("خروج"):
         st.session_state['authenticated'] = False
         st.rerun()
 
@@ -77,85 +76,49 @@ else:
     
     with tab1:
         st.header("🎞️ مكتبة الأفلام")
-        # عرض الأفلام في مربعات (3 أعمدة)
+        
+        # السطر الأول (3 أفلام)
         col1, col2, col3 = st.columns(3)
         with col1:
-            st.markdown("<div class='movie-card'>", unsafe_allow_html=True)
-            st.subheader("فيلم القناص")
+            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
+            st.subheader("فيلم أكشن 1")
             st.video("https://www.youtube.com/watch?v=S3IDV-p7fIs")
             st.markdown("</div>", unsafe_allow_html=True)
         with col2:
-            st.markdown("<div class='movie-card'>", unsafe_allow_html=True)
+            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
             st.subheader("فيلم أكشن 2")
             st.video("https://www.youtube.com/watch?v=9ay66723-K0")
             st.markdown("</div>", unsafe_allow_html=True)
         with col3:
-            st.markdown("<div class='movie-card'>", unsafe_allow_html=True)
+            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
             st.subheader("فيلم مغامرات")
             st.video("https://www.youtube.com/watch?v=5Uf_NInR8Yc")
             st.markdown("</div>", unsafe_allow_html=True)
 
+        st.markdown("---")
+
+        # السطر الثاني (3 أفلام أخرى)
+        col4, col5, col6 = st.columns(3)
+        with col4:
+            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
+            st.subheader("فيلم خيال")
+            st.video("https://www.youtube.com/watch?v=v64KOxKVzvo")
+            st.markdown("</div>", unsafe_allow_html=True)
+        with col5:
+            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
+            st.subheader("فيلم تشويق")
+            st.video("https://www.youtube.com/watch?v=SfS_mXWqHZA")
+            st.markdown("</div>", unsafe_allow_html=True)
+        with col6:
+            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
+            st.subheader("فيلم جديد")
+            st.video("https://www.youtube.com/watch?v=mY9n7K6fOAs")
+            st.markdown("</div>", unsafe_allow_html=True)
+
     with tab2:
-        st.header("📺 المسلسلات")
-        st.video("https://www.youtube.com/watch?v=v64KOxKVzvo")
+        st.header("📺 قسم المسلسلات")
+        st.write("سيتم إضافة الحلقات هنا قريباً...")
 
     with tab3:
         st.header("🐥 أفلام كرتون")
-        st.video("https://www.youtube.com/watch?v=tC_69fLwI-Y") import streamlit as st
-
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="JABBAR TV - TEST", page_icon="🎬", layout="wide")
-
-# 2. حالة الدخول
-if 'authenticated' not in st.session_state:
-    st.session_state['authenticated'] = False
-
-# 3. التصميم (CSS) لمنع تداخل الأكواد
-st.markdown("""
-<style>
-    .stApp { background: #0e1117; color: white; }
-    .test-card { border: 2px solid #E50914; padding: 10px; border-radius: 10px; margin-bottom: 20px; }
-    h1, h2, h3 { text-align: center; color: white !important; }
-</style>
-""", unsafe_allow_html=True)
-
-# --- واجهة الدخول ---
-if not st.session_state['authenticated']:
-    st.markdown("<h1>JABBAR TV</h1>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
-        name = st.text_input("أدخل اسمك للتجربة:")
-        if st.button("دخول"):
-            if name:
-                st.session_state['authenticated'] = True
-                st.rerun()
-else:
-    # --- واجهة تجربة الأقسام ---
-    st.markdown("<h2>🧪 تجربة أقسام السينما</h2>", unsafe_allow_html=True)
-    
-    tab1, tab2, tab3 = st.tabs(["🎥 تجربة الأفلام", "📺 تجربة المسلسلات", "🐥 تجربة الكرتون"])
-
-    with tab1:
-        st.subheader("تجربة تشغيل فيلم مباشر")
-        st.markdown("<div class='test-card'>", unsafe_allow_html=True)
-        # فيديو تجريبي 1 (Direct MP4)
-        st.video("https://www.w3schools.com/html/mov_bbb.mp4")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with tab2:
-        st.subheader("تجربة تشغيل مسلسل مباشر")
-        st.markdown("<div class='test-card'>", unsafe_allow_html=True)
-        # فيديو تجريبي 2 (Direct MP4)
-        st.video("https://media.w3.org/2010/05/sintel/trailer.mp4")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    with tab3:
-        st.subheader("تجربة تشغيل كرتون مباشر")
-        st.markdown("<div class='test-card'>", unsafe_allow_html=True)
-        # فيديو تجريبي 3 (Direct MP4)
-        st.video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-        st.markdown("</div>", unsafe_allow_html=True)
-
-    if st.sidebar.button("تسجيل خروج"):
-        st.session_state['authenticated'] = False
-        st.rerun()
+        st.video("https://www.youtube.com/watch?v=tC_69fLwI-Y")
