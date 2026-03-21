@@ -9,15 +9,15 @@ translations = {
         "welcome": "سينما منزلك الخاصة",
         "user_label": "أدخل اسمك للمشاهدة:",
         "login_btn": "دخول للمكتبة",
-        "movies": "🎬 أفلام رائعة",
-        "series": "📺 مسلسلات مختارة",
+        "movies": "🎬 أفلام حقيقية",
+        "series": "📺 مسلسلات",
         "kids": "🐥 أفلام كرتون"
     },
     "Français": {
         "welcome": "VOTRE CINÉMA À DOMICILE",
         "user_label": "Entrez votre nom :",
         "login_btn": "ACCÉDER",
-        "movies": "🎬 Films Superbes",
+        "movies": "🎬 Films Complets",
         "series": "📺 Séries TV",
         "kids": "🐥 Dessins Animés"
     }
@@ -41,6 +41,7 @@ st.markdown("""
     }
     .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
     .stButton>button { background-color: #E50914 !important; color: white !important; border-radius: 10px; border:none; width: 100%; height: 50px; font-weight: bold; }
+    h3 { color: #E50914 !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -53,30 +54,4 @@ if not st.session_state['authenticated']:
     col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
         name_input = st.text_input(t['user_label'], key="user_name_input")
-        if st.button(t['login_btn']):
-            if name_input:
-                st.session_state['authenticated'] = True
-                st.session_state['user_name'] = name_input
-                st.rerun()
-else:
-    # --- واجهة المكتبة بعد الدخول ---
-    st.sidebar.success(f"أهلاً {st.session_state['user_name']}")
-    if st.sidebar.button("خروج"):
-        st.session_state['authenticated'] = False
-        st.rerun()
-
-    st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
-    
-    tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
-    
-    with tab1:
-        st.header("🎞️ أفلام عالمية رائعة")
-        
-        # الفيلم الأول: Interstellar
-        st.subheader("1. فيلم خيال علمي رائع (بصيغة MP4 مباشرة)")
-        st.video("https://www.w3schools.com/html/mov_bbb.mp4") # فيديو تجريبي جودة عالية
-        
-        st.markdown("---")
-        
-        # الفيلم الثاني: الأكشن
-        st.subheader("2. فيلم أكشن وتشويق")
+        if st.button(t
