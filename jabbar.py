@@ -1,71 +1,32 @@
 import streamlit as st
 
-# 1. إعدادات الصفحة
-st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
+# إعدادات الصفحة
+st.set_page_config(page_title="JABBAR TV", page_icon="🎬")
 
-# 2. اللغات والترجمة
-translations = {
-    "العربية": {
-        "welcome": "سينما منزلك الخاصة",
-        "user_label": "أدخل اسمك للمشاهدة:",
-        "login_btn": "دخول للمكتبة",
-        "movies": "🎬 أفلام حقيقية",
-        "series": "📺 مسلسلات",
-        "kids": "🐥 أفلام كرتون"
-    },
-    "Français": {
-        "welcome": "VOTRE CINÉMA À DOMICILE",
-        "user_label": "Entrez votre nom :",
-        "login_btn": "ACCÉDER",
-        "movies": "🎬 Films Complets",
-        "series": "📺 Séries TV",
-        "kids": "🐥 Dessins Animés"
-    }
-}
-
-# 3. حالة الدخول
-if 'authenticated' not in st.session_state:
-    st.session_state['authenticated'] = False
-
-lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
-t = translations[lang]
-
-# 4. التصميم (CSS) لمنع الأخطاء وضمان الجمالية
+# كود لتعديل الواجهة للعربية
 st.markdown("""
-<style>
-    .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
-    .logo-box { 
-        display: block; margin: 0 auto; width: 80px; height: 80px; 
-        background: #E50914; color: white; text-align: center; 
-        line-height: 80px; font-size: 50px; font-family: 'Arial Black'; 
-        border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
-    }
-    .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    input { text-align: center !important; border-radius: 10px !important; color: black !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border:none; border-radius: 10px; height: 50px; }
-</style>
-""", unsafe_allow_html=True)
+    <style>
+    .main { text-align: right; direction: rtl; }
+    div.stButton > button { width: 100%; border-radius: 10px; background-color: #ff4b4b; color: white; }
+    </style>
+    """, unsafe_allow_html=True)
 
-# --- واجهة الدخول ---
-if not st.session_state['authenticated']:
-    st.markdown("<div class='logo-box'>J</div>", unsafe_allow_html=True)
-    st.markdown("<h1 class='main-title'>JABBAR TV</h1>", unsafe_allow_html=True)
-    st.markdown(f"<p style='text-align:center; color:#888;'>{t['welcome']}</p>", unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
-        name_input = st.text_input(t['user_label'], key="user_name_input")
-        if st.button(t['login_btn']):
-            if name_input:
-                st.session_state['authenticated'] = True
-                st.session_state['user_name'] = name_input
-                st.rerun()
+st.title("🎬 مرحباً بكم في جبار TV")
+st.write("الرجاء كتابة اسمك للدخول إلى السينما الخاصة بنا")
 
-# --- واجهة المحتوى الحقيقي ---
+# خانة الدخول
+user = st.text_input("أدخل اسمك هنا:")
+
+if user:
+    if user.lower() == "جبار" or user == "jabbar":
+        st.success(f"أهلاً بك يا {user}! مشاهدة ممتعة.")
+        st.balloons()
+        st.markdown("---")
+        
+        # عرض فيلم مراد علمدار
+        st.header("🎞️ فيلم وادي الذئاب: فلسطين")
+        st.video("https://www.youtube.com/watch?v=13n74AQzHh4")
+    else:
+        st.error("عذراً، هذا الاسم غير مسجل. جرب كتابة 'جبار'")
 else:
-    st.sidebar.success(f"أهلاً {st.session_state['user_name']}")
-    if st.sidebar.button("خروج"):
-        st.session_state['authenticated'] = False
-        st.rerun()
-
-    st.markdown(f"
+    st.info("نحن بانتظار دخولك..")
