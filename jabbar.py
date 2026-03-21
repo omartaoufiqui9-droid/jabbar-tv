@@ -3,25 +3,27 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. اللغات
+# 2. اللغات (عربي وفرنسي مع قسم الكرتون)
 translations = {
     "العربية": {
         "welcome": "سينما منزلك الخاصة",
         "user_label": "أدخل اسمك للمشاهدة:",
         "login_btn": "دخول للمكتبة",
         "movies": "🎬 قسم الأفلام",
-        "series": "📺 قسم المسلسلات"
+        "series": "📺 قسم المسلسلات",
+        "kids": "🐥 أفلام كرتون"
     },
     "Français": {
         "welcome": "VOTRE CINÉMA À DOMICILE",
         "user_label": "Entrez votre nom :",
         "login_btn": "ACCÉDER",
         "movies": "🎬 Section Films",
-        "series": "📺 Section Séries"
+        "series": "📺 Section Séries",
+        "kids": "🐥 Dessins Animés"
     }
 }
 
-# 3. التأكد من حالة الدخول (هذا هو السر لظهور الواجهة)
+# 3. التأكد من حالة الدخول
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
@@ -29,7 +31,7 @@ if 'authenticated' not in st.session_state:
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 4. التصميم (CSS)
+# 4. التصميم (CSS) الفخم الذي أعجبك
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -40,8 +42,9 @@ st.markdown("""
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
     .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    input { text-align: center !important; direction: rtl; border-radius: 10px !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; }
+    input { text-align: center !important; direction: rtl; border-radius: 10px !important; color: black !important; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; border-radius: 10px; }
+    .movie-card { background: #1a1a1a; padding: 10px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -60,7 +63,7 @@ if not st.session_state['authenticated']:
                 st.session_state['user_name'] = name_input
                 st.rerun()
 
-# --- واجهة المحتوى (أفلام ومسلسلات) ---
+# --- واجهة المحتوى (أفلام، مسلسلات، كرتون) ---
 else:
     st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
     if st.sidebar.button("خروج / Logout"):
@@ -69,8 +72,32 @@ else:
 
     st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
     
-    tab1, tab2 = st.tabs([t['movies'], t['series']])
+    tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
+    
     with tab1:
-        st.video("https://www.w3schools.com/html/mov_bbb.mp4")
+        st.header("🎞️ مكتبة الأفلام")
+        # عرض الأفلام في مربعات (3 أعمدة)
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.markdown("<div class='movie-card'>", unsafe_allow_html=True)
+            st.subheader("فيلم القناص")
+            st.video("https://www.youtube.com/watch?v=S3IDV-p7fIs")
+            st.markdown("</div>", unsafe_allow_html=True)
+        with col2:
+            st.markdown("<div class='movie-card'>", unsafe_allow_html=True)
+            st.subheader("فيلم أكشن 2")
+            st.video("https://www.youtube.com/watch?v=9ay66723-K0")
+            st.markdown("</div>", unsafe_allow_html=True)
+        with col3:
+            st.markdown("<div class='movie-card'>", unsafe_allow_html=True)
+            st.subheader("فيلم مغامرات")
+            st.video("https://www.youtube.com/watch?v=5Uf_NInR8Yc")
+            st.markdown("</div>", unsafe_allow_html=True)
+
     with tab2:
-        st.video("https://media.w3.org/2010/05/sintel/trailer.mp4")
+        st.header("📺 المسلسلات")
+        st.video("https://www.youtube.com/watch?v=v64KOxKVzvo")
+
+    with tab3:
+        st.header("🐥 أفلام كرتون")
+        st.video("https://www.youtube.com/watch?v=tC_69fLwI-Y")
