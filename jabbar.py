@@ -1,27 +1,30 @@
+
 import streamlit as st
 
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. اللغات
+# 2. اللغات (عربي وفرنسي)
 translations = {
     "العربية": {
         "welcome": "سينما منزلك الخاصة",
         "user_label": "أدخل اسمك للمشاهدة:",
         "login_btn": "دخول للمكتبة",
         "movies": "🎬 قسم الأفلام",
-        "series": "📺 قسم المسلسلات"
+        "series": "📺 قسم المسلسلات",
+        "current": "يعرض الآن: وادي الذئاب فلسطين"
     },
     "Français": {
         "welcome": "VOTRE CINÉMA À DOMICILE",
         "user_label": "Entrez votre nom :",
         "login_btn": "ACCÉDER",
         "movies": "🎬 Section Films",
-        "series": "📺 Section Séries"
+        "series": "📺 Section Séries",
+        "current": "En cours: Kurtlar Vadisi Filistin"
     }
 }
 
-# 3. التأكد من حالة الدخول (هذا هو السر لظهور الواجهة)
+# 3. حالة الدخول
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
@@ -29,7 +32,7 @@ if 'authenticated' not in st.session_state:
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 4. التصميم (CSS)
+# 4. التصميم (CSS) لجعل الشكل فخم جداً
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -39,9 +42,9 @@ st.markdown("""
         line-height: 80px; font-size: 50px; font-family: 'Arial Black'; 
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
-    .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    input { text-align: center !important; direction: rtl; border-radius: 10px !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; }
+    .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; margin-top: 10px; }
+    input { text-align: center !important; border-radius: 10px !important; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; border-radius: 10px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -70,7 +73,11 @@ else:
     st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
     
     tab1, tab2 = st.tabs([t['movies'], t['series']])
+    
     with tab1:
-        st.video("https://www.w3schools.com/html/mov_bbb.mp4")
+        st.markdown(f"<h3 style='color:red; text-align:center;'>{t['current']}</h3>", unsafe_allow_html=True)
+        # رابط فيلم مراد علمدار
+        st.video("https://www.youtube.com/watch?v=13n74AQzHh4")
+        
     with tab2:
-        st.video("https://media.w3.org/2010/05/sintel/trailer.mp4")
+        st.info("قريباً سيتم رفع حلقات المسلسلات هنا...")
