@@ -1,5 +1,4 @@
 
-
 import streamlit as st
 
 # 1. إعدادات الصفحة
@@ -120,64 +119,5 @@ else:
         st.write("سيتم إضافة الحلقات هنا قريباً...")
 
     with tab3:
-        st.header("🐥 أفلام كرتون")import streamlit as st
-
-# 1. إعداد الصفحة
-st.set_page_config(page_title="JABBAR TV", layout="wide")
-
-# 2. التأكد من الدخول
-if 'auth' not in st.session_state:
-    st.session_state['auth'] = False
-
-# 3. تصميم بسيط وفخم (CSS)
-st.markdown("""
-<style>
-    .stApp { background-color: #000000; color: white; }
-    .movie-box { border: 2px solid #E50914; padding: 15px; border-radius: 15px; text-align: center; margin-bottom: 20px; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; width: 100%; border-radius: 10px; border: none; height: 50px; font-weight: bold; }
-</style>
-""", unsafe_allow_html=True)
-
-# --- واجهة الدخول ---
-if not st.session_state['auth']:
-    st.markdown("<h1 style='text-align:center; color:#E50914;'>JABBAR TV</h1>", unsafe_allow_html=True)
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
-        user = st.text_input("أدخل اسمك للدخول:")
-        if st.button("دخول"):
-            if user:
-                st.session_state['auth'] = True
-                st.rerun()
-
-# --- واجهة الأقسام والفيديوهات المباشرة ---
-else:
-    st.markdown("<h2 style='text-align:center;'>🎬 سينما جبار المباشرة</h2>", unsafe_allow_html=True)
-    
-    # الأقسام
-    tab1, tab2, tab3 = st.tabs(["🎥 أفلام", "📺 مسلسلات", "🐥 كرتون"])
-
-    with tab1:
-        st.write("### تجربة فيديو مباشر (MP4)")
-        col_a, col_b = st.columns(2)
-        with col_a:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.video("https://www.w3schools.com/html/mov_bbb.mp4")
-            st.write("فيلم تجريبي 1")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with col_b:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.video("https://media.w3.org/2010/05/sintel/trailer.mp4")
-            st.write("فيلم تجريبي 2")
-            st.markdown("</div>", unsafe_allow_html=True)
-
-    with tab2:
-        st.write("### قسم المسلسلات")
-        st.video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
-
-    with tab3:
-        st.write("### قسم الكرتون")
-        st.video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")
-
-    if st.sidebar.button("خروج"):
-        st.session_state['auth'] = False
-        st.rerun()        st.video("https://www.youtube.com/watch?v=tC_69fLwI-Y") 
+        st.header("🐥 أفلام كرتون")
+        st.video("https://www.youtube.com/watch?v=tC_69fLwI-Y")
