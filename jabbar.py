@@ -3,31 +3,33 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. قاموس الترجمة (عربي / فرنسي)
+# 2. اللغات
 translations = {
     "العربية": {
         "welcome": "سينما منزلك الخاصة",
         "user_label": "أدخل اسمك للمشاهدة:",
         "login_btn": "دخول للمكتبة",
         "movies": "🎬 قسم الأفلام",
-        "series": "📺 قسم المسلسلات",
-        "logout": "خروج"
+        "series": "📺 قسم المسلسلات"
     },
     "Français": {
         "welcome": "VOTRE CINÉMA À DOMICILE",
         "user_label": "Entrez votre nom :",
         "login_btn": "ACCÉDER",
         "movies": "🎬 Section Films",
-        "series": "📺 Section Séries",
-        "logout": "Déconnexion"
+        "series": "📺 Section Séries"
     }
 }
 
-# 3. اختيار اللغة من الجانب
+# 3. التأكد من حالة الدخول (هذا هو السر لظهور الواجهة)
+if 'authenticated' not in st.session_state:
+    st.session_state['authenticated'] = False
+
+# اختيار اللغة من الجانب
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 4. تصميم الواجهة (CSS)
+# 4. التصميم (CSS)
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -38,43 +40,37 @@ st.markdown("""
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
     .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    input { text-align: center !important; direction: rtl; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border-radius: 10px; height: 45px; border:none; }
+    input { text-align: center !important; direction: rtl; border-radius: 10px !important; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; }
 </style>
 """, unsafe_allow_html=True)
 
-# 5. إدارة حالة الدخول (Session State)
-if 'auth' not in st.session_state:
-    st.session_state['auth'] = False
-
-# --- الحالة 1: إذا لم يسجل الدخول (تظهر الواجهة الأولى) ---
-if not st.session_state['auth']:
+# --- واجهة الدخول ---
+if not st.session_state['authenticated']:
     st.markdown("<div class='logo-box'>J</div>", unsafe_allow_html=True)
     st.markdown("<h1 class='main-title'>JABBAR TV</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='text-align:center; color:#888;'>{t['welcome']}</p>", unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns([1, 1.2, 1])
     with col2:
-        username = st.text_input(t['user_label'], placeholder="...")
+        name_input = st.text_input(t['user_label'], key="user_name_input")
         if st.button(t['login_btn']):
-            if username:
-                st.session_state['auth'] = True
-                st.session_state['name'] = username
+            if name_input:
+                st.session_state['authenticated'] = True
+                st.session_state['user_name'] = name_input
                 st.rerun()
 
-# --- الحالة 2: بعد كتابة الاسم (تظهر الأفلام) ---
+# --- واجهة المحتوى (أفلام ومسلسلات) ---
 else:
-    st.sidebar.write(f"👤 {st.session_state['name']}")
-    if st.sidebar.button(t['logout']):
-        st.session_state['auth'] = False
+    st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
+    if st.sidebar.button("خروج / Logout"):
+        st.session_state['authenticated'] = False
         st.rerun()
 
-    tab1, tab2 = st.tabs([t['movies'], t['series']])
+    st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
     
+    tab1, tab2 = st.tabs([t['movies'], t['series']])
     with tab1:
-        st.markdown("<h3 style='color:white;'>الأفلام المتاحة</h3>", unsafe_allow_html=True)
         st.video("https://www.w3schools.com/html/mov_bbb.mp4")
-        
     with tab2:
-        st.markdown("<h3 style='color:white;'>المسلسلات المتاحة</h3>", unsafe_allow_html=True)
         st.video("https://media.w3.org/2010/05/sintel/trailer.mp4")
