@@ -1,24 +1,28 @@
-
 import streamlit as st
 
-# إعدادات الصفحة
-st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
+# 1. إعدادات الصفحة
+st.set_page_config(page_title="JABBAR TV", layout="wide")
 
-# العنوان الرئيسي
-st.title("🎬 جبار TV - عالم الأفلام")
-st.markdown("---")
+# 2. نظام الدخول البسيط
+st.title("🔐 بوابة جبار TV")
 
-# قسم فيلم مراد علمدار
-st.header("🎞️ فيلم وادي الذئاب: فلسطين")
-st.image("https://الصورة_البوستر_اختياري") # يمكنك إضافة رابط صورة بوستر هنا
+# اطلب من المستخدم إدخال اسمه
+user_name = st.text_input("من فضلك أدخل اسمك للدخول إلى السينما:")
 
-# رابط الفيلم من يوتيوب
-video_url = "https://www.youtube.com/watch?v=13n74AQzHh4"
-st.video(video_url)
-
-st.info("الفيلم مدبلج للعربية - مشاهدة ممتعة مع مراد علمدار!")
-
-# قسم لإضافة أفلام أخرى مستقبلاً
-st.markdown("---")
-st.subheader("🔜 أفلام ستضاف قريباً")
-st.write("أخبرني يا جبار بالأفلام التي يريدها أصدقاؤك لنضيفها هنا!")
+# 3. التحقق من الاسم (يمكنك تغيير "جبار" لأي اسم تريد)
+if user_name.lower() == "جبار" or user_name.lower() == "admin":
+    st.success(f"أهلاً بك يا {user_name}! تم فتح العرض الحصري.")
+    st.markdown("---")
+    
+    # هنا يظهر الفيلم بعد الدخول
+    st.title("🎬 سينما جبار الخاصة")
+    st.header("🎞️ فيلم وادي الذئاب: فلسطين")
+    
+    # فيديو مراد علمدار
+    st.video("https://www.youtube.com/watch?v=13n74AQzHh4")
+    
+else:
+    if user_name != "":
+        st.error("عذراً، هذا الاسم غير مسجل في قائمة أصدقاء جبار.")
+    else:
+        st.info("اكتب اسمك في الأعلى واضغط Enter للدخول.")
