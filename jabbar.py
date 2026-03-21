@@ -1,32 +1,26 @@
 import streamlit as st
 
-# إعدادات الصفحة
-st.set_page_config(page_title="JABBAR TV", page_icon="🎬")
+# إعداد الصفحة لتكون عريضة واحترافية
+st.set_page_config(page_title="JABBAR TV", layout="wide")
 
-# كود لتعديل الواجهة للعربية
+# إخفاء القوائم الجانبية لتركيز الانتباه على الفيلم
 st.markdown("""
     <style>
-    .main { text-align: right; direction: rtl; }
-    div.stButton > button { width: 100%; border-radius: 10px; background-color: #ff4b4b; color: white; }
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
     </style>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_name=True)
 
-st.title("🎬 مرحباً بكم في جبار TV")
-st.write("الرجاء كتابة اسمك للدخول إلى السينما الخاصة بنا")
+st.title("🎬 جبار TV - العرض الحصري")
 
-# خانة الدخول
-user = st.text_input("أدخل اسمك هنا:")
+# عرض الفيلم بمشغل كبير
+st.subheader("🎞️ فيلم وادي الذئاب: فلسطين")
+video_url = "https://www.youtube.com/watch?v=13n74AQzHh4"
 
-if user:
-    if user.lower() == "جبار" or user == "jabbar":
-        st.success(f"أهلاً بك يا {user}! مشاهدة ممتعة.")
-        st.balloons()
-        st.markdown("---")
-        
-        # عرض فيلم مراد علمدار
-        st.header("🎞️ فيلم وادي الذئاب: فلسطين")
-        st.video("https://www.youtube.com/watch?v=13n74AQzHh4")
-    else:
-        st.error("عذراً، هذا الاسم غير مسجل. جرب كتابة 'جبار'")
-else:
-    st.info("نحن بانتظار دخولك..")
+# وضع الفيديو في منتصف الصفحة
+col1, col2, col3 = st.columns([1, 8, 1])
+with col2:
+    st.video(video_url)
+
+st.success("تم تشغيل الفيلم بنجاح على سيرفرات جبار!")
