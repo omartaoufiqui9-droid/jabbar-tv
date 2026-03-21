@@ -9,29 +9,27 @@ translations = {
         "welcome": "سينما منزلك الخاصة",
         "user_label": "أدخل اسمك للمشاهدة:",
         "login_btn": "دخول للمكتبة",
-        "movies": "🎬 قسم الأفلام",
-        "series": "📺 قسم المسلسلات",
+        "movies": "🎬 أفلام رائعة",
+        "series": "📺 مسلسلات مختارة",
         "kids": "🐥 أفلام كرتون"
     },
     "Français": {
         "welcome": "VOTRE CINÉMA À DOMICILE",
         "user_label": "Entrez votre nom :",
         "login_btn": "ACCÉDER",
-        "movies": "🎬 Section Films",
-        "series": "📺 Section Séries",
+        "movies": "🎬 Films Superbes",
+        "series": "📺 Séries TV",
         "kids": "🐥 Dessins Animés"
     }
 }
 
-# 3. التأكد من حالة الدخول
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
-# اختيار اللغة من الجانب
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 4. التصميم (CSS) - شكل فخم
+# 3. التصميم (CSS) الفخم
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -42,8 +40,7 @@ st.markdown("""
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
     .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    input { text-align: center !important; border-radius: 10px !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; border-radius: 10px; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; border-radius: 10px; border:none; width: 100%; height: 50px; font-weight: bold; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -61,11 +58,10 @@ if not st.session_state['authenticated']:
                 st.session_state['authenticated'] = True
                 st.session_state['user_name'] = name_input
                 st.rerun()
-
-# --- واجهة المحتوى (أفلام، مسلسلات، كرتون) ---
 else:
-    st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
-    if st.sidebar.button("خروج / Logout"):
+    # --- واجهة المكتبة بعد الدخول ---
+    st.sidebar.success(f"أهلاً {st.session_state['user_name']}")
+    if st.sidebar.button("خروج"):
         st.session_state['authenticated'] = False
         st.rerun()
 
@@ -74,11 +70,13 @@ else:
     tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
     
     with tab1:
-        st.subheader("فيلم وادي الذئاب: فلسطين")
-        st.video("https://www.youtube.com/watch?v=13n74AQzHh4")
+        st.header("🎞️ أفلام عالمية رائعة")
         
-    with tab2:
-        st.info("سيتم إضافة المسلسلات قريباً")
+        # الفيلم الأول: Interstellar
+        st.subheader("1. فيلم خيال علمي رائع (بصيغة MP4 مباشرة)")
+        st.video("https://www.w3schools.com/html/mov_bbb.mp4") # فيديو تجريبي جودة عالية
         
-    with tab3:
-        st.subheader("🐥 كرتون مدبلج")
+        st.markdown("---")
+        
+        # الفيلم الثاني: الأكشن
+        st.subheader("2. فيلم أكشن وتشويق")
