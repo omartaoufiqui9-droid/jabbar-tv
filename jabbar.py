@@ -1,11 +1,9 @@
-
-
 import streamlit as st
 
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. نظام اللغات
+# 2. نظام اللغات (Translations)
 translations = {
     "العربية": {
         "welcome": "سينما منزلك الخاصة",
@@ -31,9 +29,18 @@ if 'authenticated' not in st.session_state:
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 3. التصميم (CSS) الفخم
+# ---------------------------------------------------------
+# 3. هنا تجد st.markdown بالضبط (المكان المخصص للتصميم)
+# ---------------------------------------------------------
 st.markdown("""
 <style>
+    /* هذه الأسطر الأربعة هي التي تخفي ملامح ستريم ليت وتجعل الموقع مستقلاً */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    header {visibility: hidden;}
+    .stDeployButton {display:none;}
+
+    /* باقي تصميم الخلفية والمربعات */
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
     .logo-box { 
         display: block; margin: 0 auto; width: 80px; height: 80px; 
@@ -42,65 +49,46 @@ st.markdown("""
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
     .main-title { color: white; text-align: center; font-size: 40px; font-family: 'Arial Black'; }
-    input { text-align: center !important; border-radius: 10px !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border-radius: 10px; height: 45px; border:none; }
     .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; text-align: center; }
     h1, h2, h3, p, span { color: white !important; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border-radius: 10px; height: 45px; border:none; }
 </style>
 """, unsafe_allow_html=True)
 
-# --- واجهة الدخول ---
+# ---------------------------------------------------------
+# واجهة الدخول والعرض تكتمل بعد ذلك بالأسفل
+# ---------------------------------------------------------
+
 if not st.session_state['authenticated']:
     st.markdown("<div class='logo-box'>J</div>", unsafe_allow_html=True)
     st.markdown("<h1 class='main-title'>JABBAR TV</h1>", unsafe_allow_html=True)
     st.markdown(f"<p style='text-align:center; color:#888;'>{t['welcome']}</p>", unsafe_allow_html=True)
     
-    col_l1, col_l2, col_l3 = st.columns([1, 1.2, 1])
-    with col_l2:
+    col1, col2, col3 = st.columns([1, 1.2, 1])
+    with col2:
         name_input = st.text_input(t['user_label'], key="user_name_input")
         if st.button(t['login_btn']):
             if name_input:
                 st.session_state['authenticated'] = True
                 st.session_state['user_name'] = name_input
                 st.rerun()
-
-# --- واجهة المحتوى ---
 else:
-    st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
-    if st.sidebar.button("خروج"):
-        st.session_state['authenticated'] = False
-        st.rerun()
-
+    # عرض الأقسام والفيديوهات المباشرة
     st.markdown(f"<h2 style='text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
-    
     tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
     
     with tab1:
         st.header("🎞️ مكتبة الأفلام")
-        c1, c2, c3 = st.columns(3)
-        # فيلم 1
+        c1, c2 = st.columns(2)
         with c1:
             st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("تجربة 1")
+            st.subheader("تجربة فيلم 1")
             st.video("https://www.w3schools.com/html/mov_bbb.mp4")
             st.markdown("</div>", unsafe_allow_html=True)
-        # فيلم 2
         with c2:
             st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("تجربة 2")
+            st.subheader("تجربة فيلم 2")
             st.video("https://media.w3.org/2010/05/sintel/trailer.mp4")
             st.markdown("</div>", unsafe_allow_html=True)
-        # فيلم 3
-        with c3:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("تجربة 3")
-            st.video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4")
-            st.markdown("</div>", unsafe_allow_html=True)
 
-    with tab2:
-        st.header("📺 قسم المسلسلات")
-        st.video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4")
 
-    with tab3:
-        st.header("🐥 أفلام كرتون")
-        st.video("http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4")
