@@ -3,35 +3,35 @@ import streamlit as st
 # 1. إعدادات الصفحة
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. اللغات (إضافة قسم الكرتون)
+# 2. اللغات
 translations = {
     "العربية": {
         "welcome": "سينما منزلك الخاصة",
         "user_label": "أدخل اسمك للمشاهدة:",
         "login_btn": "دخول للمكتبة",
-        "movies": "🎬 أفلام",
-        "series": "📺 مسلسلات",
-        "kids": "🐥 أفلام كرتون",
-        "logout": "خروج"
+        "movies": "🎬 قسم الأفلام",
+        "series": "📺 قسم المسلسلات",
+        "kids": "🐥 أفلام كرتون"
     },
     "Français": {
         "welcome": "VOTRE CINÉMA À DOMICILE",
         "user_label": "Entrez votre nom :",
         "login_btn": "ACCÉDER",
-        "movies": "🎬 Films",
-        "series": "📺 Séries",
-        "kids": "🐥 Dessins Animés",
-        "logout": "Quitter"
+        "movies": "🎬 Section Films",
+        "series": "📺 Section Séries",
+        "kids": "🐥 Dessins Animés"
     }
 }
 
+# 3. التأكد من حالة الدخول
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
+# اختيار اللغة من الجانب
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 4. التصميم (CSS)
+# 4. التصميم (CSS) - شكل فخم
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -42,7 +42,8 @@ st.markdown("""
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
     .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; border-radius: 10px; border:none; }
+    input { text-align: center !important; border-radius: 10px !important; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; height: 45px; border:none; border-radius: 10px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -60,11 +61,24 @@ if not st.session_state['authenticated']:
                 st.session_state['authenticated'] = True
                 st.session_state['user_name'] = name_input
                 st.rerun()
+
+# --- واجهة المحتوى (أفلام، مسلسلات، كرتون) ---
 else:
-    # --- واجهة المحتوى (3 أقسام) ---
-    st.sidebar.success(f"أهلاً {st.session_state['user_name']}")
-    if st.sidebar.button(t['logout']):
+    st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
+    if st.sidebar.button("خروج / Logout"):
         st.session_state['authenticated'] = False
         st.rerun()
 
-    st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}
+    st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
+    
+    tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
+    
+    with tab1:
+        st.subheader("فيلم وادي الذئاب: فلسطين")
+        st.video("https://www.youtube.com/watch?v=13n74AQzHh4")
+        
+    with tab2:
+        st.info("سيتم إضافة المسلسلات قريباً")
+        
+    with tab3:
+        st.subheader("🐥 كرتون مدبلج")
