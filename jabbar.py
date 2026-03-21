@@ -1,4 +1,3 @@
-
 import streamlit as st
 
 # 1. إعدادات الصفحة
@@ -30,7 +29,7 @@ if 'authenticated' not in st.session_state:
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 3. التصميم (CSS) - الشكل الفخم الذي طلبته
+# 3. التصميم (CSS) - الشكل الفخم (تم إصلاح الأقواس)
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -44,6 +43,7 @@ st.markdown("""
     input { text-align: center !important; border-radius: 10px !important; color: black !important; }
     .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border-radius: 10px; height: 45px; border:none; }
     .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; text-align: center; }
+    h3, h2, h1 { color: white !important; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -62,62 +62,9 @@ if not st.session_state['authenticated']:
                 st.session_state['user_name'] = name_input
                 st.rerun()
 
-# --- واجهة عرض الأفلام ---
+# --- واجهة عرض المحتوى التجريبي ---
 else:
     st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
     if st.sidebar.button("خروج"):
         st.session_state['authenticated'] = False
-        st.rerun()
-
-    st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
-    
-    tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
-    
-    with tab1:
-        st.header("🎞️ مكتبة الأفلام")
-        
-        # السطر الأول (3 أفلام)
-        col1, col2, col3 = st.columns(3)
-        with col1:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("فيلم أكشن 1")
-            st.video("https://www.youtube.com/watch?v=S3IDV-p7fIs")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with col2:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("فيلم أكشن 2")
-            st.video("https://www.youtube.com/watch?v=9ay66723-K0")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with col3:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("فيلم مغامرات")
-            st.video("https://www.youtube.com/watch?v=5Uf_NInR8Yc")
-            st.markdown("</div>", unsafe_allow_html=True)
-
-        st.markdown("---")
-
-        # السطر الثاني (3 أفلام أخرى)
-        col4, col5, col6 = st.columns(3)
-        with col4:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("فيلم خيال")
-            st.video("https://www.youtube.com/watch?v=v64KOxKVzvo")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with col5:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("فيلم تشويق")
-            st.video("https://www.youtube.com/watch?v=SfS_mXWqHZA")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with col6:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("فيلم جديد")
-            st.video("https://www.youtube.com/watch?v=mY9n7K6fOAs")
-            st.markdown("</div>", unsafe_allow_html=True)
-
-    with tab2:
-        st.header("📺 قسم المسلسلات")
-        st.write("سيتم إضافة الحلقات هنا قريباً...")
-
-    with tab3:
-        st.header("🐥 أفلام كرتون")
-        st.video("https://www.youtube.com/watch?v=tC_69fLwI-Y")
+        st
