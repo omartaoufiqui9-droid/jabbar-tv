@@ -1,15 +1,15 @@
 import streamlit as st
 
-# 1. إعداد الصفحة
+# 1. إعدادات الصفحة
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. نظام اللغات
+# 2. اللغات والترجمة
 translations = {
     "العربية": {
         "welcome": "سينما منزلك الخاصة",
         "user_label": "أدخل اسمك للمشاهدة:",
         "login_btn": "دخول للمكتبة",
-        "movies": "🎬 أفلام أكشن مترجمة",
+        "movies": "🎬 أفلام حقيقية",
         "series": "📺 مسلسلات",
         "kids": "🐥 أفلام كرتون"
     },
@@ -17,20 +17,20 @@ translations = {
         "welcome": "VOTRE CINÉMA À DOMICILE",
         "user_label": "Entrez votre nom :",
         "login_btn": "ACCÉDER",
-        "movies": "🎬 Films d'Action",
+        "movies": "🎬 Films Complets",
         "series": "📺 Séries TV",
         "kids": "🐥 Dessins Animés"
     }
 }
 
-# 3. إدارة حالة الدخول
+# 3. حالة الدخول
 if 'authenticated' not in st.session_state:
     st.session_state['authenticated'] = False
 
 lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
 t = translations[lang]
 
-# 4. التصميم (CSS) - إصلاح شامل لتجنب الأخطاء
+# 4. التصميم (CSS) لمنع الأخطاء وضمان الجمالية
 st.markdown("""
 <style>
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
@@ -41,8 +41,8 @@ st.markdown("""
         border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
     }
     .main-title { color: white; text-align: center; font-size: 50px; font-family: 'Arial Black'; }
-    input { text-align: center !important; border-radius: 10px !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border:none; border-radius: 10px; }
+    input { text-align: center !important; border-radius: 10px !important; color: black !important; }
+    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border:none; border-radius: 10px; height: 50px; }
 </style>
 """, unsafe_allow_html=True)
 
@@ -61,30 +61,11 @@ if not st.session_state['authenticated']:
                 st.session_state['user_name'] = name_input
                 st.rerun()
 
-# --- واجهة المحتوى ---
+# --- واجهة المحتوى الحقيقي ---
 else:
-    st.sidebar.success(f"مرحباً {st.session_state['user_name']}")
-    if st.sidebar.button("خروج / Logout"):
+    st.sidebar.success(f"أهلاً {st.session_state['user_name']}")
+    if st.sidebar.button("خروج"):
         st.session_state['authenticated'] = False
         st.rerun()
 
-    st.markdown(f"<h2 style='color:white; text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
-    
-    tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
-    
-    with tab1:
-        st.header("🔥 أفلام أكشن حقيقية (مترجمة)")
-        st.subheader("1. فيلم القناص المحترف")
-        st.video("https://www.youtube.com/watch?v=S3IDV-p7fIs")
-        st.markdown("---")
-        st.subheader("2. فيلم المهمة المستحيلة")
-        st.video("https://www.youtube.com/watch?v=9ay66723-K0")
-
-    with tab2:
-        st.header("📺 قسم المسلسلات")
-        st.info("جاري إضافة أحدث المسلسلات...")
-        st.video("https://www.youtube.com/watch?v=v64KOxKVzvo")
-        
-    with tab3:
-        st.header("🐥 أفلام كرتون ممتعة")
-        st.video("https://www
+    st.markdown(f"
