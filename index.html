@@ -2,30 +2,70 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>JABBAR TV</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JABBAR TV | دخول</title>
     <style>
-        body { background: #000; color: white; text-align: center; font-family: sans-serif; margin: 0; }
-        .logo { background: #E50914; width: 70px; height: 70px; line-height: 70px; margin: 20px auto; border-radius: 15px; font-size: 40px; font-weight: bold; box-shadow: 0 0 20px #ff0000; }
+        body { 
+            background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); 
+            color: white; font-family: sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; min-height: 100vh;
+        }
+        .logo { 
+            background: #E50914; width: 80px; height: 80px; line-height: 80px; 
+            margin: 0 auto 20px; border-radius: 15px; font-size: 50px; font-weight: bold;
+            box-shadow: 0 0 20px #ff0000; text-align: center;
+        }
+        /* تنسيق شاشة الدخول */
+        #login-screen { text-align: center; background: rgba(0,0,0,0.6); padding: 40px; border-radius: 20px; border: 1px solid #333; width: 90%; max-width: 400px; }
+        input { width: 80%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; text-align: center; font-size: 16px; }
+        button { background: #E50914; color: white; border: none; padding: 12px 40px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 85%; }
+        
+        /* تنسيق واجهة الأفلام (مخفية في البداية) */
+        #main-content { display: none; width: 100%; text-align: center; padding-top: 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
-        .card { background: #1a1a1a; padding: 15px; border-radius: 15px; border: 1px solid #333; }
+        .card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; }
         video { width: 100%; border-radius: 10px; }
     </style>
 </head>
 <body>
-    <div class="logo">J</div>
-    <h1>سينما جبار المستقلة</h1>
-    <div class="grid">
-        <div class="card">
-            <h3>فيلم أكشن 1</h3>
-            <video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+
+    <div id="login-screen">
+        <div class="logo">J</div>
+        <h1>JABBAR TV</h1>
+        <p>أدخل اسمك للمشاهدة</p>
+        <input type="text" id="username" placeholder="اكتب اسمك هنا...">
+        <button onclick="enterCinema()">دخول للمكتبة</button>
+    </div>
+
+    <div id="main-content">
+        <div class="logo" style="width: 50px; height: 50px; line-height: 50px; font-size: 30px;">J</div>
+        <h2 id="welcome-msg"></h2>
+        <div class="grid">
+            <div class="card">
+                <h3>فيلم أكشن 1</h3>
+                <video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+            </div>
+            <div class="card">
+                <h3>فيلم أكشن 2</h3>
+                <video controls src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video>
+            </div>
         </div>
-        <div class="card">
-            <h3>فيلم أكشن 2</h3>
-            <video controls src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video>
-        </div>
-    </div><div class="card">
-    <h3>اسم الفيلم الجديد هنا</h3>
-    <video controls src="ضع رابط الفيديو المباشر هنا"></video>
-</div>
+    </div>
+
+    <script>
+        function enterCinema() {
+            const name = document.getElementById('username').value;
+            if (name.trim() !== "") {
+                // إخفاء شاشة الدخول وإظهار الأفلام
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                document.getElementById('welcome-msg').innerText = "مرحباً بك يا " + name;
+                // تغيير محاذاة الصفحة لتناسب العرض
+                document.body.style.display = 'block';
+            } else {
+                alert("يرجى إدخال اسمك أولاً!");
+            }
+        }
+    </script>
+
 </body>
-</html> 
+</html>
