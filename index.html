@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -8,28 +9,72 @@
         body { 
             background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); 
             color: white; font-family: sans-serif; margin: 0; min-height: 100vh;
-            display: flex; align-items: center; justify-content: center;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
         }
-        .logo-box {  
-            background: #E50914; width: 80px; height: 80px;  
-            margin: 0 auto 20px; line-height: 80px; font-size: 50px; font-weight: bold;  
-            border-radius: 15px; box-shadow: 0px 0px 20px #ff0000; text-align: center;
-        }
+        /* شريط اللغة */
+        .lang-switch { position: absolute; top: 15px; left: 15px; background: #222; color: white; border: 1px solid #444; padding: 8px; border-radius: 8px; cursor: pointer; z-index: 1000; }
+        
+        /* شاشة الدخول */
+        .logo-box { background: #E50914; width: 80px; height: 80px; margin: 0 auto 20px; line-height: 80px; font-size: 50px; font-weight: bold; border-radius: 15px; box-shadow: 0px 0px 20px #ff0000; text-align: center; }
         #login-section { text-align: center; background: rgba(0,0,0,0.8); padding: 40px; border-radius: 20px; border: 1px solid #333; width: 90%; max-width: 400px; }
-        input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; text-align: center; font-size: 16px; box-sizing: border-box; }
+        input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; text-align: center; font-size: 16px; box-sizing: border-box; color: black; }
         .stButton { background: #E50914; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 18px; }
 
-        /* شريط اللغة العلوي */
-        .lang-switch { position: absolute; top: 15px; left: 15px; background: #222; color: white; border: 1px solid #444; padding: 5px; border-radius: 5px; cursor: pointer; z-index: 1000; }
-
         /* واجهة السينما */
-        #cinema-content { display: none; width: 100%; max-width: 1000px; text-align: center; padding: 20px; animation: fadeIn 0.5s; }
+        #cinema-content { display: none; width: 100%; max-width: 1000px; text-align: center; padding: 20px; }
         .header-bar { border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
-        .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #222; }
-        .tab-btn { background: none; border: none; color: #888; font-weight: bold; cursor: pointer; padding: 10px; font-size: 16px; transition: 0.3s; }
-        .tab-btn.active { color: #E50914; border-bottom: 3px solid #E50914; }
+        .tabs { display: flex; justify-content: center; gap: 20px; margin: 20px 0; }
+        .tab-btn { background: none; border: none; color: #888; font-weight: bold; cursor: pointer; padding: 10px; font-size: 18px; border-bottom: 3px solid transparent; transition: 0.3s; }
+        .tab-btn.active { color: #E50914; border-bottom-color: #E50914; }
 
+        /* محتوى الأقسام */
         .section-content { display: none; }
-        .section-content.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        
-        .movie-box { background: rgba(255, 255, 255, 0
+        .section-content.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; animation: fadeIn 0.5s; }
+        .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; }
+        video { width: 100%; border-radius: 10px; background: black; }
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
+    </style>
+</head>
+<body>
+
+    <select class="lang-switch" id="langSelect" onchange="changeLanguage()">
+        <option value="ar">العربية</option>
+        <option value="fr">Français</option>
+    </select>
+
+    <div id="login-section">
+        <div class="logo-box">J</div>
+        <h1>JABBAR TV</h1>
+        <p id="welcomeMsg">سينما منزلك الخاصة</p>
+        <input type="text" id="userName" placeholder="أدخل اسمك للمشاهدة...">
+        <button class="stButton" id="loginBtn" onclick="startApp()">دخول للمكتبة</button>
+    </div>
+
+    <div id="cinema-content">
+        <div class="header-bar">
+            <h2 id="mainHeading">سينما منزلك الخاصة</h2>
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('movies', this)" id="btnM">🎬 قسم الأفلام</button>
+                <button class="tab-btn" onclick="switchTab('series', this)" id="btnS">📺 قسم المسلسلات</button>
+                <button class="tab-btn" onclick="switchTab('kids', this)" id="btnK">🐥 أفلام كرتون</button>
+            </div>
+            <h1 id="userGreet" style="color:#E50914;"></h1>
+        </div>
+
+        <div id="movies" class="section-content active">
+            <div class="movie-box"><h3>فيلم 1</h3><video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video></div>
+            <div class="movie-box"><h3>فيلم 2</h3><video controls src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video></div>
+        </div>
+
+        <div id="series" class="section-content">
+            <div class="movie-box"><h3>مسلسل تجريبي</h3><video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video></div>
+        </div>
+
+        <div id="kids" class="section-content">
+            <div class="movie-box"><h3>كرتون تجريبي</h3><video controls src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video></div>
+        </div>
+    </div>
+
+    <script>
+        const uiTexts = {
+            ar: { welcome: "سينما منزلك الخاصة", user: "أدخل اسمك للمشاهدة...", btn: "دخول للمكتبة", m: "🎬 قسم الأف
