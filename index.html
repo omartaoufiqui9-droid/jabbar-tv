@@ -8,80 +8,28 @@
         body { 
             background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); 
             color: white; font-family: sans-serif; margin: 0; min-height: 100vh;
-            display: flex; align-items: center; justify-content: center; overflow-x: hidden;
+            display: flex; align-items: center; justify-content: center;
         }
         .logo-box {  
             background: #E50914; width: 80px; height: 80px;  
             margin: 0 auto 20px; line-height: 80px; font-size: 50px; font-weight: bold;  
             border-radius: 15px; box-shadow: 0px 0px 20px #ff0000; text-align: center;
         }
-        #login-section { text-align: center; background: rgba(0,0,0,0.8); padding: 40px; border-radius: 20px; border: 1px solid #333; width: 90%; max-width: 400px; z-index: 100; }
-        input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; text-align: center; font-size: 16px; display: block; box-sizing: border-box; }
+        #login-section { text-align: center; background: rgba(0,0,0,0.8); padding: 40px; border-radius: 20px; border: 1px solid #333; width: 90%; max-width: 400px; }
+        input { width: 100%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; text-align: center; font-size: 16px; box-sizing: border-box; }
         .stButton { background: #E50914; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 18px; }
 
-        /* واجهة السينما المخفية */
-        #cinema-content { display: none; width: 100%; max-width: 1200px; text-align: center; padding: 20px; }
+        /* شريط اللغة العلوي */
+        .lang-switch { position: absolute; top: 15px; left: 15px; background: #222; color: white; border: 1px solid #444; padding: 5px; border-radius: 5px; cursor: pointer; z-index: 1000; }
+
+        /* واجهة السينما */
+        #cinema-content { display: none; width: 100%; max-width: 1000px; text-align: center; padding: 20px; animation: fadeIn 0.5s; }
         .header-bar { border-bottom: 1px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
-        .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; }
-        .tab-btn { color: #888; font-weight: bold; padding: 5px 10px; border-bottom: 2px solid transparent; }
-        .tab-btn.active { color: #E50914; border-bottom-color: #E50914; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; }
-        video { width: 100%; border-radius: 10px; background: black; }
-    </style>
-</head>
-<body>
+        .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #222; }
+        .tab-btn { background: none; border: none; color: #888; font-weight: bold; cursor: pointer; padding: 10px; font-size: 16px; transition: 0.3s; }
+        .tab-btn.active { color: #E50914; border-bottom: 3px solid #E50914; }
 
-    <div id="login-section">
-        <div class="logo-box">J</div>
-        <h1>JABBAR TV</h1>
-        <p>سينما منزلك الخاصة</p>
-        <input type="text" id="userName" placeholder="أدخل اسمك للمشاهدة..." required>
-        <button class="stButton" onclick="startNow()">دخول للمكتبة</button>
-    </div>
-
-    <div id="cinema-content">
-        <div class="header-bar">
-            <h2>سينما منزلك الخاصة</h2>
-            <div class="tabs">
-                <span class="tab-btn active">🎬 قسم الأفلام</span>
-                <span class="tab-btn">📺 قسم المسلسلات</span>
-                <span class="tab-btn">🐥 أفلام كرتون</span>
-            </div>
-            <h1 id="userGreeting" style="color: #E50914;"></h1>
-        </div>
-
-        <div class="grid">
-            <div class="movie-box">
-                <h3>تجربة فيلم 1</h3>
-                <video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            </div>
-            <div class="movie-box">
-                <h3>تجربة فيلم 2</h3>
-                <video controls src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function startNow() {
-            const nameInput = document.getElementById("userName");
-            const name = nameInput.value.trim();
-            
-            if (name !== "") {
-                // إخفاء شاشة الدخول تماماً
-                document.getElementById("login-section").style.display = "none";
-                // إظهار المحتوى وتغيير نظام العرض
-                const content = document.getElementById("cinema-content");
-                content.style.display = "block";
-                document.getElementById("userGreeting").innerText = "مرحباً يا " + name;
-                // تعديل الـ body للسماح بالتمرير
-                document.body.style.display = "block";
-                window.scrollTo(0, 0);
-            } else {
-                alert("لطفاً، اكتب اسمك أولاً!");
-            }
-        }
-    </script>
-</body>
-</html>
+        .section-content { display: none; }
+        .section-content.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        
+        .movie-box { background: rgba(255, 255, 255, 0
