@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -11,6 +12,8 @@
             color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center;
         }
+        
+        /* تصميم الشعار والترحيب */
         .logo-box {  
             display: block; margin: 30px auto 10px; width: 80px; height: 80px;  
             background: #E50914; color: white; text-align: center;  
@@ -19,26 +22,31 @@
         }
         .main-title { font-size: 40px; margin-bottom: 5px; text-align: center; }
         .welcome-text { color: #888; text-align: center; margin-bottom: 30px; }
-        
-        /* واجهة الدخول */
-        #login-section { width: 90%; max-width: 400px; text-align: center; background: rgba(0,0,0,0.5); padding: 30px; border-radius: 20px; border: 1px solid #333; }
+
+        /* واجهة الدخول (تظهر أولاً) */
+        #login-section { width: 90%; max-width: 400px; text-align: center; background: rgba(0,0,0,0.5); padding: 30px; border-radius: 20px; border: 1px solid #333; margin-top: 50px;}
         input { width: 100%; padding: 12px; margin: 15px 0; border-radius: 10px; border: none; text-align: center; font-size: 16px; box-sizing: border-box; }
         .stButton { background-color: #E50914; color: white; font-weight: bold; width: 100%; border-radius: 10px; height: 45px; border: none; cursor: pointer; font-size: 16px; }
 
-        /* واجهة الأقسام (Tabs) */
-        #main-content { display: none; width: 100%; max-width: 1000px; padding: 20px; }
-        .tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 30px; border-bottom: 1px solid #333; padding-bottom: 10px; }
-        .tab-btn { background: none; border: none; color: #888; padding: 10px 20px; cursor: pointer; font-size: 18px; font-weight: bold; }
-        .tab-btn.active { color: #E50914; border-bottom: 3px solid #E50914; }
+        /* واجهة السينما الرئيسية (تكون مخفية) */
+        #cinema-content { display: none; width: 100%; max-width: 1000px; padding: 20px; animation: fadeIn 0.5s;}
+        
+        /* تصميم الشريط العلوي كما في الصورة */
+        .header-bar {text-align: center; width: 100%; padding: 20px 0; border-bottom: 1px solid #333;}
+        .tabs { display: flex; justify-content: center; gap: 10px; margin: 20px 0;}
+        .tab-btn { background: none; border: none; color: #888; padding: 10px 15px; cursor: pointer; font-size: 16px; font-weight: bold;}
+        .tab-btn.active { color: #E50914; border-bottom: 2px solid #E50914;}
 
-        /* مكتبة الأفلام */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
-        .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; text-align: center; transition: 0.3s; }
-        .movie-box:hover { border-color: #E50914; transform: translateY(-5px); }
-        video { width: 100%; border-radius: 10px; margin-top: 10px; }
+        /* شبكة الأفلام */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px 0; width: 100%;}
+        .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; text-align: center; transition: 0.3s;}
+        .movie-box:hover { border-color: #E50914; transform: translateY(-5px); box-shadow: 0 0 15px rgba(229, 9, 20, 0.2);}
+        video { width: 100%; border-radius: 10px; margin-top: 10px; background: black;}
         
         /* شريط اللغة العلوي */
-        .lang-switch { position: absolute; top: 10px; left: 10px; background: #222; color: white; border: 1px solid #444; padding: 5px; border-radius: 5px; }
+        .lang-switch { position: absolute; top: 10px; left: 10px; background: #222; color: white; border: 1px solid #444; padding: 5px; border-radius: 5px;}
+        
+        @keyframes fadeIn { from {opacity: 0;} to {opacity: 1;} }
     </style>
 </head>
 <body>
@@ -56,56 +64,16 @@
         <button class="stButton" id="loginBtn" onclick="login()">دخول للمكتبة</button>
     </div>
 
-    <div id="main-content">
-        <div class="logo-box" style="width:50px; height:50px; line-height:50px; font-size:30px;">J</div>
-        <h2 id="userWelcome" style="text-align:center;"></h2>
-        
-        <div class="tabs">
-            <button class="tab-btn active" id="tabMovies">🎬 قسم الأفلام</button>
-            <button class="tab-btn" id="tabSeries">📺 قسم المسلسلات</button>
-            <button class="tab-btn" id="tabKids">🐥 أفلام كرتون</button>
-        </div>
-
-        <div class="grid" id="movieGrid">
-            <div class="movie-box">
-                <h3>تجربة فيلم 1</h3>
-                <video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
-            </div>
-            <div class="movie-box">
-                <h3>تجربة فيلم 2</h3>
-                <video controls src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video>
+    <div id="cinema-content">
+        <div class="header-bar">
+            <h2>سينما منزلك الخاصة</h2>
+            <p id="userWelcome" style="color: #E50914;"></p>
+            <div class="tabs">
+                <button class="tab-btn active" id="tabMovies">🎬 قسم الأفلام</button>
+                <button class="tab-btn" id="tabSeries">📺 قسم المسلسلات</button>
+                <button class="tab-btn" id="tabKids">🐥 أفلام كرتون</button>
             </div>
         </div>
-    </div>
 
-    <script>
-        const translations = {
-            ar: { welcome: "سينما منزلك الخاصة", label: "أدخل اسمك للمشاهدة:", btn: "دخول للمكتبة", m: "🎬 قسم الأفلام", s: "📺 قسم المسلسلات", k: "🐥 أفلام كرتون", hello: "مرحباً يا " },
-            fr: { welcome: "VOTRE CINÉMA À DOMICILE", label: "Entrez votre nom :", btn: "ACCÉDER", m: "🎬 Section Films", s: "📺 Section Séries", k: "🐥 Dessins Animés", hello: "Bienvenue " }
-        };
-
-        function changeLang() {
-            const l = document.getElementById('langSelect').value;
-            document.getElementById('welcomeMsg').innerText = translations[l].welcome;
-            document.getElementById('userName').placeholder = translations[l].label;
-            document.getElementById('loginBtn').innerText = translations[l].btn;
-            document.getElementById('tabMovies').innerText = translations[l].m;
-            document.getElementById('tabSeries').innerText = translations[l].s;
-            document.getElementById('tabKids').innerText = translations[l].k;
-        }
-
-        function login() {
-            const name = document.getElementById('userName').value;
-            const l = document.getElementById('langSelect').value;
-            if (name.trim() !== "") {
-                document.getElementById('login-section').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                document.getElementById('userWelcome').innerText = translations[l].hello + name;
-                document.body.style.display = 'block';
-            } else {
-                alert(document.getElementById('langSelect').value === 'ar' ? "يرجى إدخال الاسم" : "Entrez votre nom");
-            }
-        }
-    </script>
-</body>
-</html>
+        <div class="header-bar" style="border:none; text-align:right; padding-right: 20px;">
+            <h1 style="display
