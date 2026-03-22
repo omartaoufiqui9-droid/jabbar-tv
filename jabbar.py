@@ -1,54 +1,58 @@
 
 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JABBAR TV</title>
+    <style>
+        body { 
+            background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); 
+            color: white; font-family: sans-serif; margin: 0; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .logo { background: #E50914; width: 80px; height: 80px; line-height: 80px; margin: 0 auto 20px; border-radius: 15px; font-size: 50px; font-weight: bold; box-shadow: 0 0 20px #ff0000; text-align: center; }
+        #login-box { text-align: center; background: rgba(0,0,0,0.85); padding: 40px; border-radius: 20px; border: 1px solid #444; width: 90%; max-width: 400px; }
+        input { width: 90%; padding: 12px; margin: 20px 0; border-radius: 10px; border: none; text-align: center; font-size: 16px; color: black; }
+        button { background: #E50914; color: white; border: none; padding: 12px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 95%; font-size: 18px; }
+        #cinema-content { display: none; width: 100%; text-align: center; padding: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; }
+        .card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; }
+        video { width: 100%; border-radius: 10px; background: #000; }
+    </style>
+</head>
+<body>
 
-import streamlit as st
+    <div id="login-box">
+        <div class="logo">J</div>
+        <h1>JABBAR TV</h1>
+        <p>مرحباً بك.. أدخل اسمك للمشاهدة</p>
+        <input type="text" id="userName" placeholder="اكتب اسمك هنا...">
+        <button onclick="enterCinema()">دخول للمكتبة</button>
+    </div>
 
-# 1. إعدادات الصفحة والتصميم
-st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
+    <div id="cinema-content">
+        <div class="logo" style="width:50px; height:50px; line-height:50px; font-size:30px;">J</div>
+        <h2 id="welcomeText"></h2>
+        <div class="grid">
+            <div class="card"><h3>فيلم 1</h3><video controls src="https://www.w3schools.com/html/mov_bbb.mp4"></video></div>
+            <div class="card"><h3>فيلم 2</h3><video controls src="https://media.w3.org/2010/05/sintel/trailer.mp4"></video></div>
+        </div>
+    </div>
 
-# تصميم الواجهة بالألوان التي تحبها
-st.markdown("""
-<style>
-    .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
-    .logo-box { background: #E50914; color: white; text-align: center; padding: 10px; border-radius: 15px; font-size: 50px; font-weight: bold; box-shadow: 0 0 20px #ff0000; width: 80px; margin: 0 auto; }
-    h1, h2, h3, p { color: white !important; text-align: center; }
-    .stTabs [data-baseweb="tab-list"] { justify-content: center; }
-    .stTabs [data-baseweb="tab"] { color: #888; font-weight: bold; }
-    .stTabs [aria-selected="true"] { color: #E50914 !important; border-bottom-color: #E50914 !important; }
-</style>
-""", unsafe_allow_html=True)
-
-# 2. نظام اللغات
-lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
-t = {
-    "العربية": {"w": "سينما منزلك الخاصة", "u": "أدخل اسمك للمشاهدة:", "b": "دخول", "m": "🎬 قسم الأفلام", "s": "📺 قسم المسلسلات", "k": "🐥 أفلام كرتون"},
-    "Français": {"w": "VOTRE CINÉMA À DOMICILE", "u": "Entrez votre nom :", "b": "ACCÉDER", "m": "🎬 Films", "s": "📺 Séries", "k": "🐥 Enfants"}
-}[lang]
-
-# 3. نظام الدخول والترحيب
-if 'auth' not in st.session_state: st.session_state.auth = False
-
-if not st.session_state.auth:
-    st.markdown("<div class='logo-box'>J</div>", unsafe_allow_html=True)
-    st.markdown(f"<h1>JABBAR TV</h1><p>{t['w']}</p>", unsafe_allow_html=True)
-    name = st.text_input(t['u'])
-    if st.button(t['b']):
-        if name:
-            st.session_state.auth = True
-            st.session_state.name = name
-            st.rerun()
-else:
-    # 4. عرض الأقسام والأفلام
-    st.markdown(f"<h3>مرحباً يا {st.session_state.name}</h3>", unsafe_allow_html=True)
-    tab1, tab2, tab3 = st.tabs([t['m'], t['s'], t['k']])
-    
-    with tab1:
-        st.header("🎞️ مكتبة الأفلام")
-        col1, col2 = st.columns(2)
-        with col1:
-            st.subheader("فيلم 1")
-            # إذا رفعت الفيلم بـ Terminal، ضع اسمه هنا
-            st.video("movie1.mp4") 
-        with col2:
-            st.subheader("فيلم 2")
-            st.video("https://www.w3schools.com/html/mov_bbb.mp4")
+    <script>
+        function enterCinema() {
+            var name = document.getElementById("userName").value;
+            if (name.trim() !== "") {
+                document.getElementById("login-box").style.display = "none";
+                document.getElementById("cinema-content").style.display = "block";
+                document.getElementById("welcomeText").innerText = "مشاهدة ممتعة يا " + name;
+                document.body.style.display = "block"; 
+            } else {
+                alert("لطفاً، اكتب اسمك أولاً!");
+            }
+        }
+    </script>
+</body>
+</html>
