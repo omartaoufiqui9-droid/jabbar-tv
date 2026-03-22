@@ -1,94 +1,54 @@
 
 
+
 import streamlit as st
 
-# 1. إعدادات الصفحة
+# 1. إعدادات الصفحة والتصميم
 st.set_page_config(page_title="JABBAR TV", page_icon="🎬", layout="wide")
 
-# 2. نظام اللغات (Translations)
-translations = {
-    "العربية": {
-        "welcome": "سينما منزلك الخاصة",
-        "user_label": "أدخل اسمك للمشاهدة:",
-        "login_btn": "دخول للمكتبة",
-        "movies": "🎬 قسم الأفلام",
-        "series": "📺 قسم المسلسلات",
-        "kids": "🐥 أفلام كرتون"
-    },
-    "Français": {
-        "welcome": "VOTRE CINÉMA À DOMICILE",
-        "user_label": "Entrez votre nom :",
-        "login_btn": "ACCÉDER",
-        "movies": "🎬 Section Films",
-        "series": "📺 Section Séries",
-        "kids": "🐥 Dessins Animés"
-    }
-}
-
-if 'authenticated' not in st.session_state:
-    st.session_state['authenticated'] = False
-
-lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
-t = translations[lang]
-
-# ---------------------------------------------------------
-# 3. هنا تجد st.markdown بالضبط (المكان المخصص للتصميم)
-# ---------------------------------------------------------
+# تصميم الواجهة بالألوان التي تحبها
 st.markdown("""
 <style>
-    /* هذه الأسطر الأربعة هي التي تخفي ملامح ستريم ليت وتجعل الموقع مستقلاً */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    .stDeployButton {display:none;}
-
-    /* باقي تصميم الخلفية والمربعات */
     .stApp { background: radial-gradient(circle at center, #1a0505 0%, #000000 100%); }
-    .logo-box { 
-        display: block; margin: 0 auto; width: 80px; height: 80px; 
-        background: #E50914; color: white; text-align: center; 
-        line-height: 80px; font-size: 50px; font-family: 'Arial Black'; 
-        border-radius: 15px; box-shadow: 0px 0px 20px #ff0000;
-    }
-    .main-title { color: white; text-align: center; font-size: 40px; font-family: 'Arial Black'; }
-    .movie-box { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 15px; border: 1px solid #333; margin-bottom: 20px; text-align: center; }
-    h1, h2, h3, p, span { color: white !important; }
-    .stButton>button { background-color: #E50914 !important; color: white !important; font-weight: bold; width: 100%; border-radius: 10px; height: 45px; border:none; }
+    .logo-box { background: #E50914; color: white; text-align: center; padding: 10px; border-radius: 15px; font-size: 50px; font-weight: bold; box-shadow: 0 0 20px #ff0000; width: 80px; margin: 0 auto; }
+    h1, h2, h3, p { color: white !important; text-align: center; }
+    .stTabs [data-baseweb="tab-list"] { justify-content: center; }
+    .stTabs [data-baseweb="tab"] { color: #888; font-weight: bold; }
+    .stTabs [aria-selected="true"] { color: #E50914 !important; border-bottom-color: #E50914 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------------------------------------
-# واجهة الدخول والعرض تكتمل بعد ذلك بالأسفل
-# ---------------------------------------------------------
+# 2. نظام اللغات
+lang = st.sidebar.selectbox("🌐 Language / اللغة", ["العربية", "Français"])
+t = {
+    "العربية": {"w": "سينما منزلك الخاصة", "u": "أدخل اسمك للمشاهدة:", "b": "دخول", "m": "🎬 قسم الأفلام", "s": "📺 قسم المسلسلات", "k": "🐥 أفلام كرتون"},
+    "Français": {"w": "VOTRE CINÉMA À DOMICILE", "u": "Entrez votre nom :", "b": "ACCÉDER", "m": "🎬 Films", "s": "📺 Séries", "k": "🐥 Enfants"}
+}[lang]
 
-if not st.session_state['authenticated']:
+# 3. نظام الدخول والترحيب
+if 'auth' not in st.session_state: st.session_state.auth = False
+
+if not st.session_state.auth:
     st.markdown("<div class='logo-box'>J</div>", unsafe_allow_html=True)
-    st.markdown("<h1 class='main-title'>JABBAR TV</h1>", unsafe_allow_html=True)
-    st.markdown(f"<p style='text-align:center; color:#888;'>{t['welcome']}</p>", unsafe_allow_html=True)
-    
-    col1, col2, col3 = st.columns([1, 1.2, 1])
-    with col2:
-        name_input = st.text_input(t['user_label'], key="user_name_input")
-        if st.button(t['login_btn']):
-            if name_input:
-                st.session_state['authenticated'] = True
-                st.session_state['user_name'] = name_input
-                st.rerun()
+    st.markdown(f"<h1>JABBAR TV</h1><p>{t['w']}</p>", unsafe_allow_html=True)
+    name = st.text_input(t['u'])
+    if st.button(t['b']):
+        if name:
+            st.session_state.auth = True
+            st.session_state.name = name
+            st.rerun()
 else:
-    # عرض الأقسام والفيديوهات المباشرة
-    st.markdown(f"<h2 style='text-align:center;'>{t['welcome']}</h2>", unsafe_allow_html=True)
-    tab1, tab2, tab3 = st.tabs([t['movies'], t['series'], t['kids']])
+    # 4. عرض الأقسام والأفلام
+    st.markdown(f"<h3>مرحباً يا {st.session_state.name}</h3>", unsafe_allow_html=True)
+    tab1, tab2, tab3 = st.tabs([t['m'], t['s'], t['k']])
     
     with tab1:
         st.header("🎞️ مكتبة الأفلام")
-        c1, c2 = st.columns(2)
-        with c1:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("تجربة فيلم 1")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.subheader("فيلم 1")
+            # إذا رفعت الفيلم بـ Terminal، ضع اسمه هنا
+            st.video("movie1.mp4") 
+        with col2:
+            st.subheader("فيلم 2")
             st.video("https://www.w3schools.com/html/mov_bbb.mp4")
-            st.markdown("</div>", unsafe_allow_html=True)
-        with c2:
-            st.markdown("<div class='movie-box'>", unsafe_allow_html=True)
-            st.subheader("تجربة فيلم 2")
-            st.video("https://media.w3.org/2010/05/sintel/trailer.mp4")
-            st.markdown("</div>", unsafe_allow_html=True)
